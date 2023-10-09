@@ -1,4 +1,4 @@
-module github.com/derzombiiie/bytetrap
+module github.com/rileys-trash-can/bytetrap
 
 go 1.21.1
 

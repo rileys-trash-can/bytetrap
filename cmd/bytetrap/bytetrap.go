@@ -1,7 +1,7 @@
 package main
 
 import (
-	bt "github.com/derzombiiie/bytetrap"
+	bt "github.com/rileys-trash-can/bytetrap"
 
 	"log"
 	"os"
