@@ -1,0 +1,5 @@
+Help bytetrap
+command        action
+  -h --help    displays this help
+  -1 --one     returns a random copypasta
+  -n [number]  returns n copy pastas
