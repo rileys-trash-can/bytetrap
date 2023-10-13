@@ -40,7 +40,7 @@ func startStats() {
 
 		case <-ticker.C:
 			if total != 0 {
-				log.Printf("[bytetrap/stats] send %s (%d) bytes in the last 10s",
+				log.Printf("[bytetrap/stats] sent %s (%d) bytes in the last 10s",
 					ByteCountSI(total), total)
 
 				total = 0
