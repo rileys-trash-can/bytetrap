@@ -26,6 +26,8 @@ var (
 // read pastaFS and read into pastaMap and pastaSlice
 func readPasta() {
 	pastaOnce.Do(func() {
+		go startStats()
+
 		dir, err := pastaFS.ReadDir(pastaPrefix)
 		if err != nil {
 			log.Fatalf("Failed to read pastaPrefix('%s'): %s", pastaPrefix, err)
@@ -85,10 +87,18 @@ func GetPasta() string {
 }
 
 func Write(w io.Writer) error {
+	return write(w, false)
+}
+
+func write(w io.Writer, stat bool) error {
 	for {
-		_, err := w.Write([]byte(GetPasta()))
+		i, err := w.Write([]byte(GetPasta()))
 		if err != nil {
 			return err
+		}
+
+		if stat {
+			statsCh <- int64(i)
 		}
 	}
 }
