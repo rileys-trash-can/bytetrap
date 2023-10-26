@@ -31,7 +31,10 @@ func startStats() {
 	ticker := time.NewTicker(time.Second * 10)
 
 	statsCh = make(chan int64)
-	var total, i int64
+	var total, i, alltime int64
+	
+	starttime := time.Now()
+
 
 	for {
 		select {
@@ -40,8 +43,14 @@ func startStats() {
 
 		case <-ticker.C:
 			if total != 0 {
-				log.Printf("[bytetrap/stats] sent %s (%d) bytes in the last 10s",
-					ByteCountSI(total), total)
+				dur := int64(time.Now().Sub(starttime).Seconds())
+				alltime += total
+
+				log.Printf("[bytetrap/stats] sent %s (%d) bytes in the last 10s (%s over %ds -> %sbit/s)",
+					ByteCountSI(total), total,
+					ByteCountSI(alltime), dur,
+					ByteCountSI(alltime/dur*8),
+					)
 
 				total = 0
 			}
