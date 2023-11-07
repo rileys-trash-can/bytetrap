@@ -1,0 +1,12 @@
+[Unit]
+Description=Bytetrap web server
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/opt/webspider/webspider -listen 0.0.0.0:4980 -schaffenburg
+Restart=always
+User=bytetrap
+
+[Install]
+WantedBy=multi-user.target
