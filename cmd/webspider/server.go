@@ -7,6 +7,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
 )
 
@@ -47,7 +48,7 @@ func main() {
 
 func RandomizeHandler(h1, h2 http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if bt.Rand.Intn(5) == 0 {
+		if rand.Intn(10) == 0 {
 			h2.ServeHTTP(w, r)
 		} else {
 			h1.ServeHTTP(w, r)
