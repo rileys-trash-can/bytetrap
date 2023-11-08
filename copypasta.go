@@ -2,7 +2,6 @@ package bytetrap
 
 import (
 	"math/rand"
-	"time"
 
 	"embed"
 	"io"
@@ -77,13 +76,11 @@ func PastaMap() map[string]string {
 	return pastaMap
 }
 
-var Rand = rand.New(rand.NewSource(time.Now().UnixMilli() + time.Now().UnixMicro()))
-
 // returns a random pasta
 func GetPasta() string {
 	s := PastaSlice()
 
-	return s[Rand.Intn(len(s))]
+	return s[rand.Intn(len(s))]
 }
 
 func Write(w io.Writer) error {
