@@ -94,6 +94,7 @@ var taghtml = TagHTML
 // spams copypasta as response
 func Handler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
+	w.Write([]byte("<meta charset=\"UTF-8\">"))
 
 	write(w,
 		true,                    // do log
