@@ -19,7 +19,7 @@ func main() {
 	}
 
 	if os.Args[1] == "-1" || os.Args[1] == "--one" {
-		os.Stdout.Write([]byte(bt.GetPasta()))
+		os.Stdout.Write([]byte(bt.GetPasta().Content))
 
 		return
 	}
@@ -32,7 +32,7 @@ func main() {
 		}
 
 		for i += 0; i > 0; i-- {
-			os.Stdout.Write([]byte((bt.GetPasta())))
+			os.Stdout.Write([]byte((bt.GetPasta().Content)))
 		}
 
 		return

@@ -32,9 +32,8 @@ func startStats() {
 
 	statsCh = make(chan int64)
 	var total, i, alltime int64
-	
-	starttime := time.Now()
 
+	starttime := time.Now()
 
 	for {
 		select {
@@ -50,7 +49,7 @@ func startStats() {
 					ByteCountSI(total), total,
 					ByteCountSI(alltime), dur,
 					ByteCountSI(alltime/dur*8),
-					)
+				)
 
 				total = 0
 			}
@@ -90,7 +89,15 @@ func Middleware(next http.Handler) http.Handler {
 	return &middleware{next}
 }
 
+var taghtml = TagHTML
+
 // spams copypasta as response
 func Handler(w http.ResponseWriter, r *http.Request) {
-	write(w, true)
+	w.Header().Set("Content-Type", "text/html")
+
+	write(w,
+		true,                    // do log
+		[]Tag{TagText, TagHTML}, // only plaintext and html
+		&taghtml,                // convert to html
+	)
 }
