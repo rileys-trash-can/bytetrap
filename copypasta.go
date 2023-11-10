@@ -17,6 +17,7 @@ const (
 	TagZero Tag = iota
 	TagText
 	TagHTML
+	TagImg // subset of TagHTML
 )
 
 //go:embed copypasta
@@ -94,12 +95,13 @@ func readPasta() {
 				log.Fatalf("Failed to read copypasta from '%s': %s", path, err)
 			}
 
-			tag := TagFromFile(name)
+			native, tags := TagFromFile(name)
+
 			pasta := &Pasta{
 				Content:   string(b),
 				Name:      name,
-				Tags:      map[Tag]struct{}{tag: struct{}{}},
-				NativeTag: tag,
+				Tags:      tags,
+				NativeTag: native,
 			}
 
 			pastaMap[name] = pasta
@@ -108,15 +110,34 @@ func readPasta() {
 	})
 }
 
-func TagFromFile(n string) Tag {
+func TagFromFile(n string) (t Tag, m map[Tag]struct{}) {
+	m = make(map[Tag]struct{})
+
 	switch filepath.Ext(n) {
 	case ".html":
-		return TagHTML
+		t = TagHTML
+		break
 	case ".txt":
-		return TagText
+		t = TagText
+		break
+
+	default:
+		t = TagZero
 	}
 
-	return TagZero
+	base := filepath.Base(n)
+	tags := strings.Split(base, ".")
+	for _, tag := range tags {
+		switch tag {
+		case "img":
+			m[TagImg] = struct{}{}
+			break
+		}
+	}
+
+	m[t] = struct{}{}
+
+	return
 }
 
 // do not write to the slice
